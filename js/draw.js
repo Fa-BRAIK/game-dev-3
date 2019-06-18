@@ -1,9 +1,11 @@
 import { mapArray } from './map.js'
 
-export const drawMap = ctx=> {
+export const drawMap = (ctx) => {
     const tiles = []
     
-    loadImages(ctx, tiles, mapArray)
+    loadImages(ctx, mapArray, tiles => {
+        draw(ctx, tiles, mapArray)
+    })
 }
 
 export const drawPlayer = (ctx, mainCharacter) => {
@@ -17,7 +19,8 @@ export const drawPlayer = (ctx, mainCharacter) => {
         tileWidth, tileHeight);
 }
 
-const loadImages = (ctx, tiles, mapArray) => {
+const loadImages = (ctx, mapArray, callback) => {
+    const tiles = []
     const tilesToBeLoaded = [ // tiles needed
         'img/isometric/stone_E.png',
         'img/isometric/stone_N.png',
@@ -30,16 +33,15 @@ const loadImages = (ctx, tiles, mapArray) => {
         'img/isometric/woodenCrate_E.png',
         'img/isometric/stoneWallArchway_N.png'
     ]
-    let tilesLoaded = 0 // number of tiles loaded
 
     for (let i = 0; i < tilesToBeLoaded.length; i++) {  // load al the images into the const tiles 
         let newTile = new Image()
         newTile.src = tilesToBeLoaded[i]
         newTile.onload = () => {
             tiles.push(newTile)
-            tilesLoaded++
-            if (tilesLoaded === tilesToBeLoaded.length) {
-                draw(ctx, tiles, mapArray)
+
+            if (tiles.length === tilesToBeLoaded.length) {
+                return callback(tiles)
             }
         }
     }

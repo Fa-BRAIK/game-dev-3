@@ -3,14 +3,53 @@ import { mapArray, tileWidth, tileHeight, mapX, mapY } from './data.js'
 export const drawMap = (ctx, mainCharacter, callback) => {
     const tiles = []
     
-    loadImages(ctx, mapArray, tiles => {
-        draw(ctx, tiles, mapArray, mainCharacter)
+    loadImages(tiles => {
+        draw(ctx, tiles, mainCharacter)
 
         return callback(tiles)
     })
 }
 
-const loadImages = (ctx, mapArray, callback) => {
+const drawPlayer = (ctx, tiles, mainCharacter) => {
+    const i = Math.round(mainCharacter.positionX), j = Math.round(mainCharacter.positionY)
+    let tile_id = Math.floor(Math.random() * 4) 
+    switch (mapArray[i][j]) {
+        case 1: 
+            tile_id = Math.floor(Math.random() * 4) + 4
+        break
+        case 3: 
+            ctx.drawImage(tiles[tile_id], 
+                (i - j) * tileWidth / 2 + mapX, 
+                (i + j) * tileWidth / 4 + mapY, 
+                tileWidth, tileHeight)
+            
+            tile_id = 9
+        break;
+    }
+    if (tile_id === 9) {
+        ctx.drawImage(mainCharacter.state, 
+            (i - j) * tileWidth / 2 + mapX, 
+            (i + j) * tileWidth / 4 + mapY, 
+            tileWidth, tileHeight)
+
+        ctx.drawImage(tiles[tile_id], 
+            (i - j) * tileWidth / 2 + mapX, 
+            (i + j) * tileWidth / 4 + mapY, 
+            tileWidth, tileHeight)
+    } else {
+        ctx.drawImage(tiles[tile_id], 
+            (i - j) * tileWidth / 2 + mapX, 
+            (i + j) * tileWidth / 4 + mapY, 
+            tileWidth, tileHeight)
+
+        ctx.drawImage(mainCharacter.state, 
+            (i - j) * tileWidth / 2 + mapX, 
+            (i + j) * tileWidth / 4 + mapY, 
+            tileWidth, tileHeight)
+    }
+}
+
+const loadImages = (callback) => {
     const tiles = []
     const tilesToBeLoaded = [ // tiles needed
         'img/isometric/stone_E.png',
@@ -38,40 +77,44 @@ const loadImages = (ctx, mapArray, callback) => {
     }
 }
 
-const draw = (ctx, tiles, mapArray, mainCharacter) => {
+const draw = (ctx, tiles, mainCharacter) => {
     let tile_id = 0
 
     for (let i = 0; i < mapArray.length; i++)
         for (let j = 0; j < mapArray[i].length; j++) {
-            switch (mapArray[i][j]) {
-                case 0: 
-                    tile_id =  Math.floor(Math.random() * 4)
+            if (i === Math.round(mainCharacter.positionX) && j === Math.round(mainCharacter.positionY)) {
+                drawPlayer(ctx, tiles, mainCharacter)
+            } else {
+                switch (mapArray[i][j]) {
+                    case 0: 
+                        tile_id =  Math.floor(Math.random() * 4)
                     break
-                case 1: 
-                    tile_id =  Math.floor(Math.random() * 4) + 4
+                    case 1: 
+                        tile_id =  Math.floor(Math.random() * 4) + 4
                     break
-                case 2: 
-                    tile_id = Math.floor(Math.random() * 4) 
-                    ctx.drawImage(tiles[tile_id], 
-                        (i - j) * tileWidth / 2 + mapX, 
-                        (i + j) * tileWidth / 4 + mapY, 
-                        tileWidth, tileHeight)
-                    tile_id = 8
+                    case 2: 
+                        tile_id = Math.floor(Math.random() * 4) 
+                        ctx.drawImage(tiles[tile_id], 
+                            (i - j) * tileWidth / 2 + mapX, 
+                            (i + j) * tileWidth / 4 + mapY, 
+                            tileWidth, tileHeight)
+                        tile_id = 8
                     break
-                case 3: 
-                    tile_id = Math.floor(Math.random() * 4) 
-                    ctx.drawImage(tiles[tile_id], 
-                        (i - j) * tileWidth / 2 + mapX, 
-                        (i + j) * tileWidth / 4 + mapY, 
-                        tileWidth, tileHeight)
-                    tile_id = 9
+                    case 3: 
+                        tile_id = Math.floor(Math.random() * 4) 
+                        ctx.drawImage(tiles[tile_id], 
+                            (i - j) * tileWidth / 2 + mapX, 
+                            (i + j) * tileWidth / 4 + mapY, 
+                            tileWidth, tileHeight)
+                        tile_id = 9
                     break
-                default: 
-                    console.error('unexpected number entered in mapArray variable')
+                    default: 
+                        console.error('unexpected number entered in mapArray variable')
+                }
+                ctx.drawImage(tiles[tile_id], 
+                    (i - j) * tileWidth / 2 + mapX, 
+                    (i + j) * tileWidth / 4 + mapY, 
+                    tileWidth, tileHeight)
             }
-            ctx.drawImage(tiles[tile_id], 
-                (i - j) * tileWidth / 2 + mapX, 
-                (i + j) * tileWidth / 4 + mapY, 
-                tileWidth, tileHeight)
     }
 }

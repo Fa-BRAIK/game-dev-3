@@ -1,7 +1,5 @@
 export { Player }
 
-export const playerLoadedStates = []
-
 class Player {
     constructor (positionX, positionY, state) {
         this.positionX = positionX

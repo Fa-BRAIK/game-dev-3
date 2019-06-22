@@ -12,10 +12,10 @@ export const drawMap = (ctx, mainCharacter, callback) => {
 
 const drawPlayer = (ctx, tiles, mainCharacter) => {
     const i = Math.round(mainCharacter.positionX), j = Math.round(mainCharacter.positionY)
-    let tile_id = Math.floor(Math.random() * 4) 
+    let tile_id = 0
     switch (mapArray[i][j]) {
-        case 1: 
-            tile_id = Math.floor(Math.random() * 4) + 4
+        case 1:
+            tile_id = 1
         break
         case 3: 
             ctx.drawImage(tiles[tile_id], 
@@ -23,13 +23,13 @@ const drawPlayer = (ctx, tiles, mainCharacter) => {
                 (i + j) * tileWidth / 4 + mapY, 
                 tileWidth, tileHeight)
             
-            tile_id = 9
+            tile_id = 3
         break;
     }
-    if (tile_id === 9) {
+    if (tile_id === 3) {
         ctx.drawImage(mainCharacter.state, 
-            (i - j) * tileWidth / 2 + mapX, 
-            (i + j) * tileWidth / 4 + mapY, 
+            (mainCharacter.positionX - mainCharacter.positionY) * tileWidth / 2 + mapX, 
+            (mainCharacter.positionX + mainCharacter.positionY) * tileWidth / 4 + mapY, 
             tileWidth, tileHeight)
 
         ctx.drawImage(tiles[tile_id], 
@@ -43,8 +43,8 @@ const drawPlayer = (ctx, tiles, mainCharacter) => {
             tileWidth, tileHeight)
 
         ctx.drawImage(mainCharacter.state, 
-            (i - j) * tileWidth / 2 + mapX, 
-            (i + j) * tileWidth / 4 + mapY, 
+            (mainCharacter.positionX - mainCharacter.positionY) * tileWidth / 2 + mapX, 
+            (mainCharacter.positionX + mainCharacter.positionY) * tileWidth / 4 + mapY, 
             tileWidth, tileHeight)
     }
 }
@@ -53,13 +53,7 @@ const loadImages = (callback) => {
     const tiles = []
     const tilesToBeLoaded = [ // tiles needed
         'img/isometric/stone_E.png',
-        'img/isometric/stone_N.png',
-        'img/isometric/stone_S.png',
-        'img/isometric/stone_W.png',
         'img/isometric/stoneInset_E.png',
-        'img/isometric/stoneInset_N.png',
-        'img/isometric/stoneInset_S.png',
-        'img/isometric/stoneInset_W.png',
         'img/isometric/woodenCrate_E.png',
         'img/isometric/stoneWallArchway_N.png'
     ]
@@ -86,30 +80,24 @@ const draw = (ctx, tiles, mainCharacter) => {
                 drawPlayer(ctx, tiles, mainCharacter)
             } else {
                 switch (mapArray[i][j]) {
-                    case 0: 
-                        tile_id =  Math.floor(Math.random() * 4)
-                    break
-                    case 1: 
-                        tile_id =  Math.floor(Math.random() * 4) + 4
-                    break
                     case 2: 
-                        tile_id = Math.floor(Math.random() * 4) 
+                        tile_id = 0
                         ctx.drawImage(tiles[tile_id], 
                             (i - j) * tileWidth / 2 + mapX, 
                             (i + j) * tileWidth / 4 + mapY, 
                             tileWidth, tileHeight)
-                        tile_id = 8
+                        tile_id = 2
                     break
                     case 3: 
-                        tile_id = Math.floor(Math.random() * 4) 
+                        tile_id = 0
                         ctx.drawImage(tiles[tile_id], 
                             (i - j) * tileWidth / 2 + mapX, 
                             (i + j) * tileWidth / 4 + mapY, 
                             tileWidth, tileHeight)
-                        tile_id = 9
+                        tile_id = 3
                     break
                     default: 
-                        console.error('unexpected number entered in mapArray variable')
+                        tile_id = mapArray[i][j]
                 }
                 ctx.drawImage(tiles[tile_id], 
                     (i - j) * tileWidth / 2 + mapX, 

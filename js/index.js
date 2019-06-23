@@ -4,6 +4,7 @@ import { frames, arrayWidth, canvasHeight, canvasWidth } from './data.js'
 
 const canvas = document.querySelector('#index_canvas')
 let ctx = canvas.getContext('2d')
+ctx.scale(0.8, 0.8) // scale everything to 50%
 
 // for the main charactere movement
 // this variable will be used to move the player accross the map

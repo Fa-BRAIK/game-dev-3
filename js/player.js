@@ -25,26 +25,26 @@ class Player {
             case 'left': 
                 this.positionX -= value
                 if (this.isGoingToCollide()) this.positionX += value
-                if (currentFrame === 10) this.setState(playerStates.idle[6])
-                else this.setState(playerStates.run[10 * 6 + currentFrame])
+                
+                this.setState(playerStates.run[10 * 6 + currentFrame])
             break
             case 'right':
                 this.positionX += value
                 if (this.isGoingToCollide()) this.positionX -= value
-                if (currentFrame === 10) this.setState(playerStates.idle[2])
-                else this.setState(playerStates.run[10 * 2 + currentFrame])
+                
+                this.setState(playerStates.run[10 * 2 + currentFrame])
             break
             case 'top':
                 this.positionY -= value
                 if (this.isGoingToCollide()) this.positionY += value
-                if (currentFrame === 10) this.setState(playerStates.idle[0])
-                else this.setState(playerStates.run[currentFrame])
+                
+                this.setState(playerStates.run[currentFrame])
             break
             case 'bottom':
                 this.positionY += value
                 if (this.isGoingToCollide()) this.positionY -= value
-                if (currentFrame === 10) this.setState(playerStates.idle[4])
-                else this.setState(playerStates.run[10 * 4 + currentFrame])
+                
+                this.setState(playerStates.run[10 * 4 + currentFrame])
             break
         }
         console.log('Player state has changed to ', this.state)
@@ -93,6 +93,7 @@ class Player {
         let playerStatesIdle = []
 
         for (let i = 0; i < states.idle.length; i++) {
+            // we'll start by loading idle0 states first
             const newStateIdle = new Image()
             newStateIdle.src = states.idle[i]
             newStateIdle.onload = () => {

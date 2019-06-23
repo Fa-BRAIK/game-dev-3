@@ -1,4 +1,4 @@
-import { drawMap } from './draw.js'
+import { drawMap, draw } from './draw.js'
 import { Player } from './player.js'
 import { frames, arrayWidth } from './data.js'
 
@@ -44,8 +44,8 @@ Player.loadPlayerStates(playerStates => {
                 console.log('Current frame: ', currentFrame)
     
                 // redraw the map with the character
-                // TO DO : write a second drawMap function 
-                drawMap(ctx, mainCharacter, tiles => {})
+                ctx.clearRect(0, 0, 2000, 1000)
+                draw(ctx, tiles, mainCharacter)
                 animation = false
             }
         })

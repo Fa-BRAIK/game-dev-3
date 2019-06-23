@@ -59,7 +59,9 @@ class Player {
     isGoingToCollide() {
         // Att the moment the only obst is a 2
         // TODO update the map for more obsts
-        return obstArray[Math.round(this.positionX)][Math.round(this.positionY)] === 1
+        try {
+            return obstArray[Math.round(this.positionX)][Math.round(this.positionY)] === 1
+        } catch (e) { return true } // index out of bounds exception ... it means the player is not allowed to move there
     }
 
     /**

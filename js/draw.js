@@ -71,7 +71,7 @@ const loadImages = (callback) => {
     }
 }
 
-const draw = (ctx, tiles, mainCharacter) => {
+export const draw = (ctx, tiles, mainCharacter) => {
     let tile_id = 0
 
     for (let i = 0; i < mapArray.length; i++)

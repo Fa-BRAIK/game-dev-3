@@ -1,10 +1,10 @@
 import { drawMap } from './draw.js'
 import { Player } from './player.js'
-import { frames, arrayWidth, canvasHeight, canvasWidth } from './data.js'
+import { frames, arrayWidth } from './data.js'
 
 const canvas = document.querySelector('#index_canvas')
 let ctx = canvas.getContext('2d')
-ctx.scale(0.8, 0.8) // scale everything to 50%
+ctx.scale(0.8, 0.8) // scale everything to 80%
 
 // for the main charactere movement
 // this variable will be used to move the player accross the map
@@ -16,7 +16,7 @@ let currentFrame = 0
 
 Player.loadPlayerStates(playerStates => {
     let mainCharacter = new Player(6, 6, playerStates.idle[3])
-    
+
     drawMap(ctx, mainCharacter, tiles => {
         //this is the callback function with tiles available and loaded
         window.addEventListener('keydown', e => {
@@ -44,6 +44,7 @@ Player.loadPlayerStates(playerStates => {
                 console.log('Current frame: ', currentFrame)
     
                 // redraw the map with the character
+                // TO DO : write a second drawMap function 
                 drawMap(ctx, mainCharacter, tiles => {})
                 animation = false
             }

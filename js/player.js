@@ -1,3 +1,5 @@
+import { obstArray } from './data.js'
+
 export { Player }
 
 class Player {
@@ -17,31 +19,47 @@ class Player {
      * @param {Number} value 
      */
     run (position, currentFrame, playerStates, value) {
+        // we need to check if player is not going to collide before moving everytime
         console.log('Run the player towards ', position, ' by ', value)
         switch (position) {
             case 'left': 
                 this.positionX -= value
+                if (this.isGoingToCollide()) this.positionX += value
                 if (currentFrame === 10) this.setState(playerStates.idle[6])
                 else this.setState(playerStates.run[10 * 6 + currentFrame])
             break
             case 'right':
                 this.positionX += value
+                if (this.isGoingToCollide()) this.positionX -= value
                 if (currentFrame === 10) this.setState(playerStates.idle[2])
                 else this.setState(playerStates.run[10 * 2 + currentFrame])
             break
             case 'top':
                 this.positionY -= value
+                if (this.isGoingToCollide()) this.positionY += value
                 if (currentFrame === 10) this.setState(playerStates.idle[0])
                 else this.setState(playerStates.run[currentFrame])
             break
             case 'bottom':
                 this.positionY += value
+                if (this.isGoingToCollide()) this.positionY -= value
                 if (currentFrame === 10) this.setState(playerStates.idle[4])
                 else this.setState(playerStates.run[10 * 4 + currentFrame])
             break
         }
         console.log('Player state has changed to ', this.state)
         console.log('%c Player new Position x: ' + this.positionX + ', y: ' + this.positionY, 'color: #aa0000')
+    }
+
+    /**
+     * this function will return true if the player is going to collide with an obst
+     * 
+     * @returns {Boolean}
+     */
+    isGoingToCollide() {
+        // Att the moment the only obst is a 2
+        // TODO update the map for more obsts
+        return obstArray[Math.round(this.positionX)][Math.round(this.positionY)] === 1
     }
 
     /**

@@ -25,15 +25,19 @@ Player.loadPlayerStates(playerStates => {
             switch(e.keyCode) {
                 case 37: // stand up towards the left side
                     mainCharacter.setState(playerStates.idle[6])
+                    currentFrame = 0
                 break
                 case 39: // stand up towards the right side
                     mainCharacter.setState(playerStates.idle[2])
+                    currentFrame = 0                    
                 break
                 case 38:  // stand up towards the top side
                     mainCharacter.setState(playerStates.idle[0])
+                    currentFrame = 0                    
                 break
                 case 40: // stand up towards the bottom side
                     mainCharacter.setState(playerStates.idle[4])
+                    currentFrame = 0
                 break
             }
 
